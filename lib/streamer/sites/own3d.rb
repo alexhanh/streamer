@@ -1,4 +1,7 @@
 require 'httparty'
+require 'active_support/time'
+
+require 'streamer/stream'
 
 module Streamer
   module Sites
@@ -10,16 +13,16 @@ module Streamer
       def get_stream(id)
         data = self.class.get("/live?channel=#{id}&showAll")
         
-        data = data['rss']['channel']
+        data = data['rss']['channel']['item']
         
-        if data['item']
-          viewers = data['item']['misc']['viewers'].to_i
-          live_since = data['item']['misc']['duration'].to_i.seconds.ago
-          
-          return Stream.new(:is_live => true, :viewers => viewers, :live_since => live_since)
+        if data['thumbnail'][0] == 'http://img.own3d.tv/live/no-tn.jpg'
+          return Stream.new(:is_live => false)
         end
         
-        return Stream.new(:is_live => false)
+        viewers = data['misc']['viewers'].to_i
+        live_since = data['misc']['duration'].to_i.seconds.ago
+          
+        return Stream.new(:is_live => true, :viewers => viewers, :live_since => live_since)
       end
     end
   end
