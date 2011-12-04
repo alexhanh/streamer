@@ -9,28 +9,27 @@ module Streamer
       include HTTParty
       base_uri 'http://api.justin.tv/api'
       
-      def get_list()
-        streams = []
+      def list(params={})
+        begin
+          response = self.class.get("/stream/list.json", :query => params)
+        rescue StandardError => e
+          p e
+          # Errno::ETIMEDOUT, Errno::ECONNREFUSED, Errno::ECONNRESET, SocketError, Timeout::Error, etc.
+          return nil
+        end
         
-        data = self.class.get("/stream/list.json?meta_game=StarCraft%20II:%20Wings%20of%20Liberty")
-        for stream in data
+        if response.code != 200
+          p response.code
+          return nil
+        end
+
+        streams = []          
+        for stream in response
           streams << parse_stream(stream)
         end
         
         return streams
       end
-      
-      # def get_stream(id)
-      #   data = self.class.get("/stream/list.json?channel=#{id}")
-      # 
-      #   for match in data
-      #     if match['channel']['login'] == id
-      #       return parse_stream(match)
-      #     end      
-      #   end        
-      #   
-      #   return Stream.new(:id => id, :is_live => false)
-      # end
       
       protected
       def parse_stream(data)

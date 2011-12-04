@@ -10,7 +10,9 @@ module Streamer
       base_uri 'http://api.own3d.tv'
       format :xml
       
-      def get_list()
+      def list
+        throw NotImplementedError.new("Own3d is not implemented.")
+        
         data = self.class.get('/live?game=sc2')
         
         streams = []
