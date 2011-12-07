@@ -10,10 +10,8 @@ module Streamer
       base_uri 'http://api.own3d.tv'
       format :xml
       
-      def list
-        throw NotImplementedError.new("Own3d is not implemented.")
-        
-        data = self.class.get('/live?game=sc2')
+      def list(params={})        
+        data = self.class.get('/live', :query => params)
         
         streams = []
         
@@ -28,26 +26,27 @@ module Streamer
         return streams
       end
       
-      # def get_stream(id)
-      #   data = self.class.get("/live?channel=#{id}&showAll")
-      #   
-      #   return parse_stream(data['rss']['channel']['item'])
-      # end
-      
       protected
       def parse_stream(item)
         id = item['credit']
         
-        # if item['thumbnail'][0] == 'http://img.own3d.tv/live/no-tn.jpg'
-        #   return Stream.new(:is_live => false)
-        # end
-        
         viewers = item['misc']['viewers'].to_i
         live_since = item['misc']['duration'].to_i.seconds.ago
         
+        capture_url = item['thumbnail']
+        
         url = item['link']
+        
+        # Not sure why the title is returned twice within array.
+        title = item['title'][0]
           
-        return Stream.new(:id => id, :is_live => true, :viewers => viewers, :live_since => live_since, :url => url)
+        return Stream.new(:id => id, 
+                          :is_live => true, 
+                          :viewers => viewers, 
+                          :live_since => live_since, 
+                          :url => url, 
+                          :capture_url => capture_url,
+                          :title => title)
       end
     end
   end
