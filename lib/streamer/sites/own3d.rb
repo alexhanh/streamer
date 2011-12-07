@@ -10,8 +10,13 @@ module Streamer
       base_uri 'http://api.own3d.tv'
       format :xml
       
-      def list(params={})        
-        data = self.class.get('/live', :query => params)
+      def list(params={})   
+        begin
+          data = self.class.get('/live', :query => params)
+        rescue StandardError => e
+          p e
+          return nil
+        end
         
         streams = []
         
