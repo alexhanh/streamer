@@ -38,7 +38,7 @@ module Streamer
         viewers = item['misc']['viewers'].to_i
         live_since = item['misc']['duration'].to_i.seconds.ago
         
-        capture_url = item['thumbnail']
+        capture_url = item['thumbnail'][0]
         
         url = item['link']
         
