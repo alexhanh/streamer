@@ -51,6 +51,7 @@ module Streamer
         title = data['channel']['status']
         
         return Stream.new(:id => id, 
+                          :name => id,
                           :is_live => true, 
                           :viewers => viewers, 
                           :live_since => live_since, 

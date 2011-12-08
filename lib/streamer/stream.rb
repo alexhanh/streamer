@@ -1,6 +1,6 @@
 module Streamer
   class Stream
-    attr_reader :id, :embed_code, :viewers, :live_since, :is_live, :url, :capture_url, :title
+    attr_reader :id, :name, :embed_code, :viewers, :live_since, :is_live, :url, :capture_url, :title
     
     def initialize(attrs={})
       @id = attrs[:id]

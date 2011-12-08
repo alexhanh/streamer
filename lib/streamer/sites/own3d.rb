@@ -33,19 +33,20 @@ module Streamer
       
       protected
       def parse_stream(item)
-        id = item['credit']
+        url = item['link']
+        id = url[/\d+$/]
+        name = item['credit']
         
         viewers = item['misc']['viewers'].to_i
         live_since = item['misc']['duration'].to_i.seconds.ago
         
-        capture_url = item['thumbnail'][0]
-        
-        url = item['link']
-        
-        # Not sure why the title is returned twice within array.
+        capture_url = item['thumbnail'][0]                
         title = item['title'][0]
-          
-        return Stream.new(:id => id, 
+        
+        
+        
+        return Stream.new(:id => id,
+                          :name => name,
                           :is_live => true, 
                           :viewers => viewers, 
                           :live_since => live_since, 
