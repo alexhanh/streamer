@@ -43,8 +43,6 @@ module Streamer
         capture_url = item['thumbnail'][0]                
         title = item['title'][0]
         
-        
-        
         return Stream.new(:id => id,
                           :name => name,
                           :is_live => true, 

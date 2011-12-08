@@ -4,6 +4,7 @@ module Streamer
     
     def initialize(attrs={})
       @id = attrs[:id]
+      @name = attrs[:name]
       @viewers = attrs[:viewers]
       @is_live = attrs[:is_live]
       @live_since = attrs[:live_since]
