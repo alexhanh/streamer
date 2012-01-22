@@ -22,5 +22,5 @@ Gem::Specification.new do |s|
   # s.add_development_dependency "rspec"
   # s.add_runtime_dependency "rest-client"
   s.add_dependency('httparty', '~> 0.8.1')
-  s.add_dependency('activesupport', '~> 3.1.1')
+  s.add_dependency('activesupport', '~> 3.2.0')
 end
