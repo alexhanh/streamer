@@ -40,7 +40,8 @@ module Streamer
         viewers = item['misc']['viewers'].to_i
         live_since = item['misc']['duration'].to_i.seconds.ago
         
-        capture_url = item['thumbnail'][0]                
+        # https://mail.google.com/mail/u/0/#inbox/13a270ff59d765b2
+        capture_url = item['thumbnail'][0].gsub(/llnw/, 'live')
         title = item['title'][0]
         
         return Stream.new(:id => id,
